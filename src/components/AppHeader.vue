@@ -1,20 +1,31 @@
 <script>
 import logo from "@/assets/images/logo.png";
 import routes from "@/config/routes";
+import authService from "@/services/auth.service";
 
 export default {
   data() {
     return {
       logo: logo,
       routes: routes,
+      user: null,
     };
+  },
+  methods: {
+    async getUser() {
+      const data = await authService.getCurrentUser();
+      this.user = data.result;
+    },
+  },
+  created() {
+    this.getUser();
   },
 };
 </script>
 
 <template>
-  <header class=" mb-3 border-bottom fixed-header">
-    <div class="container">
+  <header class="mb-3 border-bottom fixed-top" style="height: 80px">
+    <div class="container" style="height: 80px">
       <div
         class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
       >
@@ -28,10 +39,13 @@ export default {
         <ul
           class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
         >
-          <li><a href="#" class="nav-link px-2 link-secondary">Overview</a></li>
-          <li><a href="#" class="nav-link px-2 link-dark">Inventory</a></li>
-          <li><a href="#" class="nav-link px-2 link-dark">Customers</a></li>
-          <li><a href="#" class="nav-link px-2 link-dark">Products</a></li>
+          <li>
+            <router-link
+              :to="routes.home"
+              class="nav-link px-2 text-black fw-bold"
+              >Trang chủ</router-link
+            >
+          </li>
         </ul>
 
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -42,8 +56,20 @@ export default {
             aria-label="Search"
           />
         </form>
-
-        <div class="dropdown text-end">
+        <button
+          @click="this.$router.push({ name: 'cart' })"
+          type="button"
+          class="btn btn-primary position-relative me-4"
+        >
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          >
+            99+
+            <span class="visually-hidden">unread messages</span>
+          </span>
+        </button>
+        <div class="dropdown text-end" v-if="user">
           <a
             href="#"
             class="d-block link-dark text-decoration-none dropdown-toggle"
@@ -52,7 +78,7 @@ export default {
             aria-expanded="false"
           >
             <img
-              src="https://github.com/mdo.png"
+              :src="user.avatar"
               alt="mdo"
               width="32"
               height="32"
@@ -60,11 +86,15 @@ export default {
             />
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item" href="#">New project...</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li>
+              <router-link class="dropdown-item" :to="routes.profile"
+                >Tài khoản của tôi</router-link
+              >
+            </li>
             <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
+            <li>
+              <div class="dropdown-item">Đăng xuất</div>
+            </li>
           </ul>
         </div>
       </div>
@@ -84,5 +114,13 @@ export default {
 
 .logo {
   width: 90px;
+}
+
+header {
+  background-color: white;
+}
+
+.dropdown .dropdown-toggle::after {
+  content: none;
 }
 </style>

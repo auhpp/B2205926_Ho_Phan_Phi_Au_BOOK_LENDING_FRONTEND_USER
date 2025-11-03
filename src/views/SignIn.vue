@@ -60,7 +60,11 @@ export default {
     <div class="row w-100">
       <main class="form-signin col-4 offset-4 text-center">
         <Form @submit="signin" :validation-schema="loginFormSchema">
-          <img class="" :src="logo" alt="" width="120" height="120" />
+          <div class="d-flex justify-content-center">
+            <div class="logo w-100">
+              <img class="" :src="logo" alt="" />
+            </div>
+          </div>
           <h1 class="h3 mb-3 fw-normal">Đăng nhập</h1>
           <div v-if="errorLogin" class="alert alert-danger" role="alert">
             <span> {{ errorLogin }}</span>
@@ -105,13 +109,13 @@ export default {
           </div>
           <div class="row justify-content-between pt-2 pb-1">
             <div class="login-text col-5 text-start">
-              <router-link to="/signin" class="login-nav primary-text"
+              <router-link to="/signin" class="login-nav text-primary"
                 >Quên mật khẩu?</router-link
               >
             </div>
             <div class="login-text col-7">
               <span class="text-secondary">Chưa có tài khoản? </span>
-              <router-link :to="routes.signup" class="login-nav primary-text"
+              <router-link :to="routes.signup" class="login-nav text-primary"
                 >Đăng ký</router-link
               >
             </div>
@@ -127,5 +131,11 @@ export default {
 <style>
 .container {
   height: 100vh;
+}
+
+.logo {
+  max-height: 120px;
+  max-width: 120px;
+  display: block;
 }
 </style>

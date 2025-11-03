@@ -9,6 +9,9 @@ class AuthService {
         return (await this.api.post("/signin", data)).data;
     }
 
+    async getCurrentUser() {
+        return (await this.api.get("/user")).data;
+    }
 
 }
 

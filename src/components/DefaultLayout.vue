@@ -9,9 +9,9 @@ export default {
 </script>
 
 <template>
-  <div class="default-layout g-0">
-    <main class="container main-content">
-      <AppHeader />
+  <div class="default-layout g-0 ">
+    <AppHeader />
+    <main class="main-content">
       <div class="mt-3 content">
         <router-view />
       </div>
@@ -20,15 +20,20 @@ export default {
 </template>
 
 <style>
+.default-layout {
+  background-color: var(--grey-bg);
+  height: 100vh;
+}
 .default-layout .main-content {
   padding-inline: 0;
-  padding-top: 60px;
-  height: 100vh;
-  overflow-y: auto;
+  padding-top: 70px;
+}
+
+.main-content {
+  background-color: var(--grey-bg);
 }
 
 .default-layout {
-  height: 100vh;
   width: 100%;
 }
 </style>

@@ -3,6 +3,10 @@ import { createWebHistory, createRouter } from "vue-router";
 import routePaths from "@/config/routes";
 import SignIn from "@/views/SignIn.vue";
 import SignUp from "@/views/SignUp.vue";
+import Home from "@/views/Home.vue";
+import BookDetail from "@/views/BookDetail.vue";
+import Profile from "@/views/Profile.vue";
+import Cart from "@/views/Cart.vue";
 
 const routes = [
     {
@@ -12,7 +16,23 @@ const routes = [
             {
                 path: routePaths.home,
                 name: "home",
-                component: DefaultLayout
+                component: Home
+            },
+            {
+                path: routePaths.book + "/:id",
+                name: "book.detail",
+                component: BookDetail,
+                props: true
+            },
+            {
+                path: routePaths.profile,
+                name: "profile",
+                component: Profile,
+            },
+            {
+                path: routePaths.cart,
+                name: "cart",
+                component: Cart,
             }
         ]
     },
