@@ -16,6 +16,10 @@ export default {
       const data = await authService.getCurrentUser();
       this.user = data.result;
     },
+    signout() {
+      localStorage.removeItem("access_token");
+      this.$router.replace({ name: "signin" });
+    },
   },
   created() {
     this.getUser();
@@ -93,7 +97,9 @@ export default {
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <div class="dropdown-item">Đăng xuất</div>
+              <div class="dropdown-item signout" @click="signout">
+                Đăng xuất
+              </div>
             </li>
           </ul>
         </div>
@@ -122,5 +128,9 @@ header {
 
 .dropdown .dropdown-toggle::after {
   content: none;
+}
+
+.signout {
+  cursor: pointer;
 }
 </style>

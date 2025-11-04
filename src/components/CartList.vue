@@ -1,7 +1,7 @@
 <script>
 export default {
   props: { carts: { type: Array, default: [], required: true } },
-  emits: ["delete:cart", "update:cart"],
+  emits: ["delete:cart", "update:cart", "update:selectBook"],
   methods: {
     handlDeleteCart(cart) {
       this.$emit("delete:cart", cart);
@@ -32,8 +32,15 @@ export default {
       }
     },
   },
+  watch: {
+    selectedBooks(newSelectedList) {
+      this.$emit("update:selectBook", newSelectedList);
+    },
+  },
   data() {
-    return {};
+    return {
+      selectedBooks: [],
+    };
   },
 };
 </script>
@@ -46,8 +53,9 @@ export default {
         <input
           class="form-check-input"
           type="checkbox"
-          value=""
-          id="flexCheckDefault"
+          :id="'check-' + cart._id"
+          :value="cart"
+          v-model="selectedBooks"
         />
         <!-- {/* card-cart-item */} -->
         <div

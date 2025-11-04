@@ -4,7 +4,8 @@ const routes = {
     home: "/home",
     book: "/book",
     profile: "/profile",
-    cart: "/cart"
+    cart: "/cart",
+    checkout: "/checkout"
 }
 
 export default routes;

@@ -14,6 +14,7 @@ export default {
       currentPage: 1,
       totalPages: 1,
       limit: 10,
+      selectedBooks: [],
     };
   },
   watch: {
@@ -52,6 +53,17 @@ export default {
       if (data) {
         this.retrieveCarts();
       }
+    },
+    hanldeSelectBook(selectBooks) {
+      this.selectedBooks = selectBooks;
+      console.log("select books: ", selectBooks);
+    },
+    handleNavigateToCheckout() {
+      const bookJson = JSON.stringify(this.selectedBooks);
+      sessionStorage.setItem("selectedBookForCheckout", bookJson);
+      this.$router.push({
+        name: "checkout",
+      });
     },
   },
   created() {
@@ -92,6 +104,7 @@ export default {
             :carts="carts"
             @delete:cart="deleteCartItem"
             @update:cart="updateCart"
+            @update:select-book="hanldeSelectBook"
           />
           <div class="d-flex justify-content-center mt-3 mb-3">
             <Pagination v-model="currentPage" :total-pages="totalPages" />
@@ -110,7 +123,13 @@ export default {
             <span>Tổng số sách</span>
             <span class="price"> 10 cuốn</span>
           </div>
-          <button class="btn btn-danger btn-payment">Mượn</button>
+          <button
+            :disabled="selectedBooks.length == 0"
+            @click="handleNavigateToCheckout"
+            class="btn btn-danger btn-payment"
+          >
+            Mượn
+          </button>
         </div>
       </div>
     </div>

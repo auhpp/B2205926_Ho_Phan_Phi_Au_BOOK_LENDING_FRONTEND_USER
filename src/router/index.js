@@ -7,6 +7,7 @@ import Home from "@/views/Home.vue";
 import BookDetail from "@/views/BookDetail.vue";
 import Profile from "@/views/Profile.vue";
 import Cart from "@/views/Cart.vue";
+import Checkout from "@/views/Checkout.vue";
 
 const routes = [
     {
@@ -33,6 +34,12 @@ const routes = [
                 path: routePaths.cart,
                 name: "cart",
                 component: Cart,
+            },
+            {
+                path: routePaths.checkout,
+                name: "checkout",
+                component: Checkout,
+                props: true
             }
         ]
     },
