@@ -121,7 +121,12 @@ export default {
           </div> -->
           <div class="amount">
             <span>Tổng số sách</span>
-            <span class="price"> 10 cuốn</span>
+            <span class="price">
+              {{
+                selectedBooks.reduce((prev, curr) => prev + curr.quantity, 0)
+              }}
+              cuốn</span
+            >
           </div>
           <button
             :disabled="selectedBooks.length == 0"

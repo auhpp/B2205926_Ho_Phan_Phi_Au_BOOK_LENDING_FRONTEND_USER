@@ -1,6 +1,7 @@
 <script>
 import authService from "@/services/auth.service";
 import configurationService from "@/services/configuration.service";
+import loanSlipService from "@/services/loanSlip.service";
 
 export default {
   data() {
@@ -26,7 +27,23 @@ export default {
       const today = new Date();
       const futureDate = new Date(today);
       futureDate.setDate(today.getDate() + 14);
-      this.returnBookDate = futureDate.toLocaleDateString("vi-VN");
+      this.returnBookDate = futureDate;
+    },
+
+    async createLoanSlip() {
+      const data = await loanSlipService.create({
+        books: this.booksToCheckout.map((item) => {
+          return { _id: item.bookDetails._id, quantity: item.quantity };
+        }),
+        borrowedDate: new Date(),
+        returnDate: this.returnBookDate,
+        readerId: this.user._id,
+        status: "pending",
+      });
+      if (data) {
+        alert("Tạo phiếu mượn thành công");
+        this.$router.push({ name: "home" });
+      }
     },
   },
   created() {
@@ -88,7 +105,9 @@ export default {
             >Ngày trả:</label
           >
         </div>
-        <div class="col-sm-8 col-lg-10">{{ returnBookDate }}</div>
+        <div class="col-sm-8 col-lg-10">
+          {{ returnBookDate ? returnBookDate.toLocaleDateString("vi-VN") : "" }}
+        </div>
       </div>
     </section>
     <!-- Kiểm tra lại số lượng sách mượn -->
@@ -142,7 +161,12 @@ export default {
           }}</span>
         </div>
         <div class="text-center">
-          <button type="button" id="" class="btn btn-danger">
+          <button
+            @click="createLoanSlip"
+            type="button"
+            id=""
+            class="btn btn-danger"
+          >
             Xác nhận mượn
           </button>
         </div>
