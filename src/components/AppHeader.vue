@@ -2,6 +2,8 @@
 import logo from "@/assets/images/logo.png";
 import routes from "@/config/routes";
 import authService from "@/services/auth.service";
+import { mapStores, mapState } from "pinia";
+import { useCartStore } from "@/stores/cartStore";
 
 export default {
   data() {
@@ -10,6 +12,11 @@ export default {
       routes: routes,
       user: null,
     };
+  },
+  computed: {
+    ...mapStores(useCartStore),
+
+    ...mapState(useCartStore, ["totalItems"]),
   },
   methods: {
     async getUser() {
@@ -23,6 +30,7 @@ export default {
   },
   created() {
     this.getUser();
+    this.cartStore.fetchCartCount();
   },
 };
 </script>
@@ -34,7 +42,7 @@ export default {
         class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
       >
         <router-link
-          :to="routes.signin"
+          :to="routes.home"
           class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"
         >
           <img :src="logo" class="logo" alt="" />
@@ -67,9 +75,10 @@ export default {
         >
           <i class="fa-solid fa-cart-shopping"></i>
           <span
+            v-if="totalItems > 0"
             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
           >
-            99+
+            {{ totalItems }}
             <span class="visually-hidden">unread messages</span>
           </span>
         </button>
@@ -89,10 +98,29 @@ export default {
               class="rounded-circle"
             />
           </a>
-          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+          <ul
+            class="dropdown-menu text-small mt-1"
+            aria-labelledby="dropdownUser1"
+          >
             <li>
               <router-link class="dropdown-item" :to="routes.profile"
                 >Tài khoản của tôi</router-link
+              >
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <router-link
+                class="dropdown-item"
+                :to="routes.loanSlip + '?status=pending'"
+                >Phiếu mượn
+              </router-link>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <router-link
+                class="dropdown-item"
+                :to="routes.penaltyTicket + '?paymentStatus=NOT_PAID'"
+                >Phiếu phạt</router-link
               >
             </li>
             <li><hr class="dropdown-divider" /></li>

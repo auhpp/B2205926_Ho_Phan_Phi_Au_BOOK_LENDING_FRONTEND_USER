@@ -2,7 +2,8 @@
 import CartList from "@/components/CartList.vue";
 import Pagination from "@/components/Pagination.vue";
 import cartService from "@/services/cart.service";
-
+import { mapActions } from "pinia";
+import { useCartStore } from "@/stores/cartStore";
 export default {
   components: {
     Pagination,
@@ -41,9 +42,12 @@ export default {
     handleChangePage(pageNum) {
       this.currentPage = pageNum;
     },
+
+    ...mapActions(useCartStore, ["fetchCartCount"]),
     async deleteCartItem(cart) {
       const data = await cartService.deleteById(cart._id);
       if (data) {
+        await this.fetchCartCount();
         alert("Xóa sách trong giỏ hàng thành công");
         this.retrieveCarts();
       }

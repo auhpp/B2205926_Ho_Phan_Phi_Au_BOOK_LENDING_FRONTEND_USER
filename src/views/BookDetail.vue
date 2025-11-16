@@ -5,6 +5,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import cartService from "@/services/cart.service";
+import { mapActions } from "pinia";
+import { useCartStore } from "@/stores/cartStore";
 
 export default {
   components: {
@@ -45,15 +47,9 @@ export default {
     handlePlus() {
       if (this.quantity + 1 <= this.book.bookCopyQuantity) this.quantity += 1;
     },
-    async addToCart() {
-      const data = await cartService.create({
-        bookId: this.book._id,
-        quantity: this.quantity,
-      });
-      if (data.result) {
-        alert("Đã thêm sản phẩm vào giỏ sách");
-        this.findBookById();
-      }
+    ...mapActions(useCartStore, ["addToCart"]),
+    async handleAddToCart() {
+      await this.addToCart({ bookId: this.book._id, quantity: this.quantity });
     },
   },
   created() {
@@ -140,7 +136,7 @@ export default {
                 </div>
               </div>
               <!-- button -->
-              <div @click="addToCart" class="col mt-5">
+              <div @click="handleAddToCart" class="col mt-5">
                 <button class="btn btn-danger">
                   <i class="fa-solid fa-cart-plus"></i>
                   Mượn sách

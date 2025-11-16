@@ -8,7 +8,9 @@ class CartService {
     async findAll({ page, limit }) {
         return (await this.api.get("/", { params: { page, limit } })).data;
     }
-
+    async countCart() {
+        return (await this.api.get("/count")).data;
+    }
     async create({ quantity, bookId }) {
         return (await this.api.post("/", { quantity, bookId })).data;
     }

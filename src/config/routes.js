@@ -5,7 +5,10 @@ const routes = {
     book: "/book",
     profile: "/profile",
     cart: "/cart",
-    checkout: "/checkout"
+    checkout: "/checkout",
+    loanSlip: "/loanSlips",
+    penaltyTicket: "/penaltyTickets",
+
 }
 
 export default routes;

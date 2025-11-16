@@ -8,11 +8,34 @@ import BookDetail from "@/views/BookDetail.vue";
 import Profile from "@/views/Profile.vue";
 import Cart from "@/views/Cart.vue";
 import Checkout from "@/views/Checkout.vue";
+import LoanSlipList from "@/views/LoanSlipList.vue";
+import LoanSlipDetail from "@/views/LoanSlipDetail.vue";
+import PenaltyTicketList from "@/views/PenaltyTicketList.vue";
+
+const ifLoggedInRedirectToHome = (to, from, next) => {
+    const token = localStorage.getItem("access_token");
+
+    if (token) {
+        next({ name: 'home' });
+    } else {
+        next();
+    }
+};
+
+const ifNotLoggedInRedirectToSignin = (to, from, next) => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+        next({ name: 'signin' });
+    } else {
+        next();
+    }
+};
 
 const routes = [
     {
         path: "/",
         component: DefaultLayout,
+        beforeEnter: ifNotLoggedInRedirectToSignin,
         children: [
             {
                 path: routePaths.home,
@@ -40,18 +63,36 @@ const routes = [
                 name: "checkout",
                 component: Checkout,
                 props: true
-            }
+            },
+            {
+                path: routePaths.loanSlip,
+                name: "loanSlip",
+                component: LoanSlipList,
+            },
+            {
+                path: routePaths.loanSlip + "/:id",
+                name: "loanSlip.detail",
+                component: LoanSlipDetail,
+                props: true
+            },
+            {
+                path: routePaths.penaltyTicket,
+                name: "penaltyTicket",
+                component: PenaltyTicketList,
+            },
         ]
     },
     {
         path: routePaths.signin,
         name: "signin",
-        component: SignIn
+        component: SignIn,
+        beforeEnter: ifLoggedInRedirectToHome
     },
     {
         path: routePaths.signup,
         name: "signup",
-        component: SignUp
+        component: SignUp,
+        beforeEnter: ifLoggedInRedirectToHome
     }
 ];
 const router = createRouter({

@@ -2,6 +2,8 @@
 import authService from "@/services/auth.service";
 import configurationService from "@/services/configuration.service";
 import loanSlipService from "@/services/loanSlip.service";
+import { mapActions } from "pinia";
+import { useCartStore } from "@/stores/cartStore";
 
 export default {
   data() {
@@ -30,19 +32,28 @@ export default {
       this.returnBookDate = futureDate;
     },
 
+    ...mapActions(useCartStore, ["fetchCartCount"]),
     async createLoanSlip() {
-      const data = await loanSlipService.create({
-        books: this.booksToCheckout.map((item) => {
-          return { _id: item.bookDetails._id, quantity: item.quantity };
-        }),
-        borrowedDate: new Date(),
-        returnDate: this.returnBookDate,
-        readerId: this.user._id,
-        status: "pending",
-      });
-      if (data) {
-        alert("Tạo phiếu mượn thành công");
-        this.$router.push({ name: "home" });
+      try {
+        const data = await loanSlipService.create({
+          books: this.booksToCheckout.map((item) => {
+            return { _id: item.bookDetails._id, quantity: item.quantity };
+          }),
+          borrowedDate: new Date(),
+          returnDate: this.returnBookDate,
+          readerId: this.user._id,
+          status: "pending",
+        });
+        if (data.result) {
+          await this.fetchCartCount();
+          alert("Tạo phiếu mượn thành công");
+          this.$router.push({ name: "home" });
+        }
+      } catch (error) {
+        console.error("err loan slip", error);
+        alert(
+          "Tạo phiếu mượn thất bại có thể do: bạn có sách chưa trả, phiếu phạt chưa thanh toán hoặc số lượng sách đã hết!"
+        );
       }
     },
   },
