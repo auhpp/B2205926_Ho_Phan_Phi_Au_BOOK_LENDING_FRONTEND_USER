@@ -7,7 +7,7 @@ class ConfigurationService {
 
 
     async findByName(name) {
-        return (await this.api.get(`/${name}`)).data;
+        return (await this.api.get(`/name/${name}`)).data;
     }
 
 }

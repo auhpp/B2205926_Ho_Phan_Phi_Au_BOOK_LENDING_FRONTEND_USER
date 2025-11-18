@@ -8,7 +8,7 @@ export default {
 
 <template>
   <div
-    class="card"
+    class="card h-100"
     @click="
       this.$router.push({ name: 'book.detail', params: { id: book._id } })
     "

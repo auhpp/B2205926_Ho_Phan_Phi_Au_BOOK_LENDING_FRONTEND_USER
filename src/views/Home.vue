@@ -13,7 +13,7 @@ export default {
       books: [],
       currentPage: 1,
       totalPages: 1,
-      limit: 10,
+      limit: 12,
     };
   },
   watch: {

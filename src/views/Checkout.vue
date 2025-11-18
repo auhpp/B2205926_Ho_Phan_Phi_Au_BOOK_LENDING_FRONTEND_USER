@@ -40,7 +40,7 @@ export default {
             return { _id: item.bookDetails._id, quantity: item.quantity };
           }),
           borrowedDate: new Date(),
-          returnDate: this.returnBookDate,
+          returnDate: new Date(this.returnBookDate),
           readerId: this.user._id,
           status: "pending",
         });
@@ -126,7 +126,7 @@ export default {
       <h3 class="title">Kiểm tra lại thông tin sách mượn</h3>
       <hr />
       <div class="header row">
-        <div class="col-10 text-start">Sản phẩm</div>
+        <div class="col-10 text-start">Sách</div>
         <div class="col text-center">Số lượng</div>
       </div>
 

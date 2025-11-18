@@ -136,8 +136,13 @@ export default {
                 </div>
               </div>
               <!-- button -->
-              <div @click="handleAddToCart" class="col mt-5">
-                <button class="btn btn-danger">
+              <div class="col mt-5">
+                <button
+                  @click="handleAddToCart"
+                  type="button"
+                  class="btn btn-danger"
+                  :disabled="this.book.bookCopyQuantity == 0"
+                >
                   <i class="fa-solid fa-cart-plus"></i>
                   Mượn sách
                 </button>
