@@ -51,7 +51,11 @@ export default {
     <div class="row w-100">
       <main class="form-signin col-4 offset-4 text-center">
         <Form @submit="signup" :validation-schema="signupFormSchema">
-          <img class="" :src="logo" alt="" width="120" height="120" />
+          <div class="d-flex justify-content-center">
+            <div class="logo w-100">
+              <img class="" :src="logo" alt="" />
+            </div>
+          </div>
           <h1 class="h3 mb-3 fw-normal">Đăng ký</h1>
           <div v-if="errorSignup" class="alert alert-danger" role="alert">
             <span> {{ errorSignup }}</span>
@@ -94,9 +98,9 @@ export default {
               Hiển thị mật khẩu
             </label>
           </div>
-          <div class="login-text pt-2 pb-1">
-            <span class="text-secondary">Đã có tài khoản? </span>
-            <router-link :to="routes.signin" class="login-nav primary-text"
+          <div class="login-text pt-2 pb-1 ">
+            <span class="text-secondary me-1">Đã có tài khoản? </span>
+            <router-link :to="routes.signin" class="login-nav text-primary"
               >Đăng nhập</router-link
             >
           </div>

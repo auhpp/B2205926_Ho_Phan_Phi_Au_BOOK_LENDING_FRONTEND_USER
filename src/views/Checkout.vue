@@ -4,14 +4,19 @@ import configurationService from "@/services/configuration.service";
 import loanSlipService from "@/services/loanSlip.service";
 import { mapActions } from "pinia";
 import { useCartStore } from "@/stores/cartStore";
+import LoadingOverlay from "@/components/loadingOverlay.vue";
 
 export default {
+  components: {
+    LoadingOverlay,
+  },
   data() {
     return {
       user: null,
       booksToCheckout: [],
       config: null,
       returnBookDate: null,
+      isLoading: false,
     };
   },
   methods: {
@@ -35,6 +40,7 @@ export default {
     ...mapActions(useCartStore, ["fetchCartCount"]),
     async createLoanSlip() {
       try {
+        this.isLoading = true;
         const data = await loanSlipService.create({
           books: this.booksToCheckout.map((item) => {
             return { _id: item.bookDetails._id, quantity: item.quantity };
@@ -54,6 +60,8 @@ export default {
         alert(
           "Tạo phiếu mượn thất bại có thể do: bạn có sách chưa trả, phiếu phạt chưa thanh toán hoặc số lượng sách đã hết!"
         );
+      } finally {
+        this.isLoading = false;
       }
     },
   },
@@ -74,6 +82,7 @@ export default {
 
 <template>
   <div class="container" style="height: auto">
+    <LoadingOverlay :visible="isLoading" />
     <!-- THông tin người mượn -->
     <section class="ship-address" v-if="user">
       <h3 class="title">

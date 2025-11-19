@@ -8,6 +8,7 @@ const routes = {
     checkout: "/checkout",
     loanSlip: "/loanSlips",
     penaltyTicket: "/penaltyTickets",
+    search: "/search"
 
 }
 

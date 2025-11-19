@@ -4,13 +4,19 @@ import routes from "@/config/routes";
 import authService from "@/services/auth.service";
 import { mapStores, mapState } from "pinia";
 import { useCartStore } from "@/stores/cartStore";
+import SearchInput from "./SearchInput.vue";
+import defaultAvatar from "@/assets/images/default_avatar.png";
 
 export default {
+  components: {
+    SearchInput,
+  },
   data() {
     return {
       logo: logo,
       routes: routes,
       user: null,
+      defaultAvatar: defaultAvatar,
     };
   },
   computed: {
@@ -60,14 +66,9 @@ export default {
           </li>
         </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <input
-            type="search"
-            class="form-control"
-            placeholder="Search..."
-            aria-label="Search"
-          />
-        </form>
+        <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+          <SearchInput />
+        </div>
         <button
           @click="this.$router.push({ name: 'cart' })"
           type="button"
@@ -91,7 +92,7 @@ export default {
             aria-expanded="false"
           >
             <img
-              :src="user.avatar"
+              :src="user.avatar ? user.avatar : defaultAvatar"
               alt="mdo"
               width="32"
               height="32"

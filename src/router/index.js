@@ -11,6 +11,7 @@ import Checkout from "@/views/Checkout.vue";
 import LoanSlipList from "@/views/LoanSlipList.vue";
 import LoanSlipDetail from "@/views/LoanSlipDetail.vue";
 import PenaltyTicketList from "@/views/PenaltyTicketList.vue";
+import SearchBook from "@/views/SearchBook.vue";
 
 const ifLoggedInRedirectToHome = (to, from, next) => {
     const token = localStorage.getItem("access_token");
@@ -79,6 +80,11 @@ const routes = [
                 path: routePaths.penaltyTicket,
                 name: "penaltyTicket",
                 component: PenaltyTicketList,
+            },
+            {
+                path: routePaths.search,
+                name: "search",
+                component: SearchBook,
             },
         ]
     },

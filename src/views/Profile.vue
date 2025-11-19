@@ -4,12 +4,14 @@ import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
 import defaultAvatar from "./../assets/images/default_avatar.png";
 import readerService from "@/services/reader.service";
+import LoadingOverlay from "@/components/loadingOverlay.vue";
 
 export default {
   components: {
     Form,
     Field,
     ErrorMessage,
+    LoadingOverlay,
   },
   data() {
     const userFormSchema = yup.object().shape({
@@ -22,21 +24,29 @@ export default {
       user: null,
       avatarPreview: defaultAvatar,
       avatarFile: "",
+      isloading: false,
     };
   },
   methods: {
     async submitUser(values) {
-      const formData = new FormData();
-      formData.append("_id", values._id);
-      formData.append("fullName", values.fullName);
-      formData.append("email", values.email);
-      formData.append("phoneNumber", values.phoneNumber);
-      formData.append("gender", values.gender);
-      formData.append("dateOfBirth", values.dateOfBirth);
-      formData.append("avatar", this.avatarFile);
-      const data = await readerService.update(formData);
-      this.user = data.result;
-      alert("Cập nhật thông tin thành công");
+      try {
+        this.isloading = true;
+        const formData = new FormData();
+        formData.append("_id", values._id);
+        formData.append("fullName", values.fullName);
+        formData.append("email", values.email);
+        formData.append("phoneNumber", values.phoneNumber);
+        formData.append("gender", values.gender);
+        formData.append("dateOfBirth", values.dateOfBirth);
+        formData.append("avatar", this.avatarFile);
+        const data = await readerService.update(formData, values._id);
+        this.user = data.result;
+        alert("Cập nhật thông tin thành công");
+      } catch (error) {
+        alert("Lỗi cập nhật thông tin người dùng");
+      } finally {
+        this.isloading = false;
+      }
     },
     async getUser() {
       const data = await authService.getCurrentUser();
@@ -63,6 +73,7 @@ export default {
 
 <template>
   <div class="container" style="height: auto">
+    <LoadingOverlay :visible="isloading" />
     <div class="profile">
       <!-- {/* head */} -->
       <div class="head row">

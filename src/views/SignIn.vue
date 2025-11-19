@@ -114,7 +114,7 @@ export default {
               >
             </div>
             <div class="login-text col-7">
-              <span class="text-secondary">Chưa có tài khoản? </span>
+              <span class="text-secondary me-1">Chưa có tài khoản? </span>
               <router-link :to="routes.signup" class="login-nav text-primary"
                 >Đăng ký</router-link
               >

@@ -5,7 +5,6 @@ class ConfigurationService {
         this.api = createApiClient(baseUrl);
     }
 
-
     async findByName(name) {
         return (await this.api.get(`/name/${name}`)).data;
     }
