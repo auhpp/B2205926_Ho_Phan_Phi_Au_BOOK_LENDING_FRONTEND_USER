@@ -33,7 +33,7 @@ export default {
       this.config = data.result;
       const today = new Date();
       const futureDate = new Date(today);
-      futureDate.setDate(today.getDate() + 14);
+      futureDate.setDate(today.getDate() + data.result.value);
       this.returnBookDate = futureDate;
     },
 
