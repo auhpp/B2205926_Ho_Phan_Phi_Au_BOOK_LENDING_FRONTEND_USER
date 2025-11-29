@@ -15,7 +15,7 @@ export default {
       currentPage: 1,
       totalPages: 1,
       limit: 10,
-      selectedBooks: [],
+      selectedIds: [],
     };
   },
   watch: {
@@ -58,16 +58,31 @@ export default {
         this.retrieveCarts();
       }
     },
-    hanldeSelectBook(selectBooks) {
-      this.selectedBooks = selectBooks;
-      console.log("select books: ", selectBooks);
+    hanldeSelectBook(ids) {
+      this.selectedIds = ids;
+      console.log("Selected IDs:", ids);
     },
     handleNavigateToCheckout() {
-      const bookJson = JSON.stringify(this.selectedBooks);
+      const bookJson = JSON.stringify(this.finalSelectedBooks);
+
       sessionStorage.setItem("selectedBookForCheckout", bookJson);
-      this.$router.push({
-        name: "checkout",
-      });
+      this.$router.push({ name: "checkout" });
+    },
+  },
+  computed: {
+    finalSelectedBooks() {
+      if (!this.carts.length || !this.selectedIds.length) return [];
+
+      return this.carts.filter((cartItem) =>
+        this.selectedIds.includes(cartItem._id)
+      );
+    },
+
+    totalQuantity() {
+      return this.finalSelectedBooks.reduce(
+        (prev, curr) => prev + curr.quantity,
+        0
+      );
     },
   },
   created() {
@@ -126,14 +141,12 @@ export default {
           <div class="amount">
             <span>Tổng số sách</span>
             <span class="price">
-              {{
-                selectedBooks.reduce((prev, curr) => prev + curr.quantity, 0)
-              }}
+              {{ totalQuantity }}
               cuốn</span
             >
           </div>
           <button
-            :disabled="selectedBooks.length == 0"
+            :disabled="finalSelectedBooks.length == 0"
             @click="handleNavigateToCheckout"
             class="btn btn-danger btn-payment"
           >

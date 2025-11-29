@@ -33,13 +33,13 @@ export default {
     },
   },
   watch: {
-    selectedBooks(newSelectedList) {
-      this.$emit("update:selectBook", newSelectedList);
+    selectedBookIds(newIds) {
+      this.$emit("update:selectBook", newIds);
     },
   },
   data() {
     return {
-      selectedBooks: [],
+      selectedBookIds: [],
     };
   },
 };
@@ -54,8 +54,8 @@ export default {
           class="form-check-input"
           type="checkbox"
           :id="'check-' + cart._id"
-          :value="cart"
-          v-model="selectedBooks"
+          :value="cart._id"
+          v-model="selectedBookIds"
         />
         <!-- {/* card-cart-item */} -->
         <div

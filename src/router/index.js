@@ -12,6 +12,8 @@ import LoanSlipList from "@/views/LoanSlipList.vue";
 import LoanSlipDetail from "@/views/LoanSlipDetail.vue";
 import PenaltyTicketList from "@/views/PenaltyTicketList.vue";
 import SearchBook from "@/views/SearchBook.vue";
+import Resetpassword from "@/views/ResetPassword.vue";
+
 
 const ifLoggedInRedirectToHome = (to, from, next) => {
     const token = localStorage.getItem("access_token");
@@ -86,6 +88,7 @@ const routes = [
                 name: "search",
                 component: SearchBook,
             },
+
         ]
     },
     {
@@ -99,7 +102,14 @@ const routes = [
         name: "signup",
         component: SignUp,
         beforeEnter: ifLoggedInRedirectToHome
-    }
+    },
+    {
+        path: routePaths.password + "/reset",
+        name: "password.reset",
+        component: Resetpassword,
+        beforeEnter: ifLoggedInRedirectToHome
+
+    },
 ];
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),

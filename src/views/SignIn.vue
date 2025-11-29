@@ -109,7 +109,9 @@ export default {
           </div>
           <div class="row justify-content-between pt-2 pb-1">
             <div class="login-text col-5 text-start">
-              <router-link to="/signin" class="login-nav text-primary"
+              <router-link
+                :to="routes.password + '/reset'"
+                class="login-nav text-primary"
                 >Quên mật khẩu?</router-link
               >
             </div>

@@ -13,6 +13,15 @@ class AuthService {
         return (await this.api.get("/user")).data;
     }
 
+    async sendotp({ userName, role }) {
+        return (await this.api.post("/sendOtp", { userName: userName, role: role })).data;
+    }
+    async verifyOtp({ userName, otp }) {
+        return (await this.api.post("/verifyOtp", { userName: userName, otp: otp })).data;
+    }
+    async resetPassword({ userName, otp, newPassword, role }) {
+        return (await this.api.post("/resetPassword", { userName: userName, otp: otp, newPassword: newPassword, role: role })).data;
+    }
 }
 
 export default new AuthService();

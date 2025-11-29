@@ -51,6 +51,9 @@ export default {
     async getUser() {
       const data = await authService.getCurrentUser();
       this.user = data.result;
+      if (this.user.dateOfBirth) {
+        this.user.dateOfBirth = this.user.dateOfBirth.split("T")[0];
+      }
       this.user.gender = "MALE";
       if (this.user.avatar) {
         this.avatarPreview = this.user.avatar;
@@ -298,6 +301,7 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .avatar .choose-img-btn {

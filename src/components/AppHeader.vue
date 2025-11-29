@@ -93,10 +93,7 @@ export default {
           >
             <img
               :src="user.avatar ? user.avatar : defaultAvatar"
-              alt="mdo"
-              width="32"
-              height="32"
-              class="rounded-circle"
+              class="rounded-circle-avatar rounded-circle"
             />
           </a>
           <ul

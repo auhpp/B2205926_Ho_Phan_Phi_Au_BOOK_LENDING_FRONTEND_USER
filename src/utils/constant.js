@@ -142,3 +142,12 @@ export const PaymentStatus = {
         color: "danger"
     },
 }
+
+export const Role = {
+    ADMIN: {
+        name: "admin",
+    },
+    USER: {
+        name: "user",
+    },
+}
