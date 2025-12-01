@@ -13,6 +13,7 @@ import LoanSlipDetail from "@/views/LoanSlipDetail.vue";
 import PenaltyTicketList from "@/views/PenaltyTicketList.vue";
 import SearchBook from "@/views/SearchBook.vue";
 import Resetpassword from "@/views/ResetPassword.vue";
+import ChangePassword from "@/views/ChangePassword.vue";
 
 
 const ifLoggedInRedirectToHome = (to, from, next) => {
@@ -87,6 +88,11 @@ const routes = [
                 path: routePaths.search,
                 name: "search",
                 component: SearchBook,
+            },
+            {
+                path: routePaths.profile + "/changePassword",
+                name: "profile.changePassword",
+                component: ChangePassword,
             },
 
         ]

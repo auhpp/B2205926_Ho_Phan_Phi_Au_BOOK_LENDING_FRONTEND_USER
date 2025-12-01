@@ -22,6 +22,10 @@ class AuthService {
     async resetPassword({ userName, otp, newPassword, role }) {
         return (await this.api.post("/resetPassword", { userName: userName, otp: otp, newPassword: newPassword, role: role })).data;
     }
+
+    async changePassword({ oldPassword, newPassword }) {
+        return (await this.api.post("/changePassword", { oldPassword: oldPassword, newPassword: newPassword })).data;
+    }
 }
 
 export default new AuthService();

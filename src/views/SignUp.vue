@@ -14,8 +14,18 @@ export default {
 
   data() {
     const signupFormSchema = yup.object().shape({
-      userName: yup.string().required("Nhập username"),
-      password: yup.string().required("Nhập mật khẩu"),
+      userName: yup.string().required("Username không được để trống"),
+      password: yup
+        .string()
+        .required("Mật khẩu không được để trống")
+        .min(8, "Mật khẩu phải có ít nhất 8 ký tự")
+        .matches(/[a-z]/, "Mật khẩu phải chứa ít nhất một chữ thường")
+        .matches(/[A-Z]/, "Mật khẩu phải chứa ít nhất một chữ hoa")
+        .matches(/[0-9]/, "Mật khẩu phải chứa ít nhất một số")
+        .matches(
+          /[!@#$%^&*(),.?":{}|<>]/,
+          "Mật khẩu phải chứa ít nhất một ký tự đặc biệt"
+        ),
     });
     return {
       logo: logo,
@@ -98,7 +108,7 @@ export default {
               Hiển thị mật khẩu
             </label>
           </div>
-          <div class="login-text pt-2 pb-1 ">
+          <div class="login-text pt-2 pb-1">
             <span class="text-secondary me-1">Đã có tài khoản? </span>
             <router-link :to="routes.signin" class="login-nav text-primary"
               >Đăng nhập</router-link
