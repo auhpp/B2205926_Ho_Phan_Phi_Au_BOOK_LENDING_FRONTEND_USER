@@ -18,7 +18,9 @@ export default {
 
       if (
         this.loanSlip.status === LoanSlipStatus.rejected.name ||
-        this.loanSlip.status === LoanSlipStatus.returned.name
+        this.loanSlip.status === LoanSlipStatus.returned.name ||
+        this.loanSlip.status === LoanSlipStatus.pending.name ||
+        this.loanSlip.status === LoanSlipStatus.approved.name
       ) {
         return false;
       }
@@ -110,6 +112,17 @@ export default {
         <div class="col-md-6">
           <div class="d-flex align-items-center mb-1">
             <span class="text-secondary small me-2" style="min-width: 80px"
+              >Ngày tạo:</span
+            >
+            <span class="fw-medium">{{
+              formatDateTime(loanSlip.createdAt)
+            }}</span>
+          </div>
+        </div>
+
+        <div class="col-md-6" v-if="loanSlip.borrowedDate">
+          <div class="d-flex align-items-center mb-1">
+            <span class="text-secondary small me-2" style="min-width: 80px"
               >Ngày mượn:</span
             >
             <span class="fw-medium">{{
@@ -118,7 +131,7 @@ export default {
           </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6" v-if="loanSlip.returnDate">
           <div class="d-flex align-items-center">
             <span class="text-secondary small me-2" style="min-width: 80px"
               >Hạn trả:</span
