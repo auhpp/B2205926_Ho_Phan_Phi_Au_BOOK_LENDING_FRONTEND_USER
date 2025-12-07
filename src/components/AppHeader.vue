@@ -110,7 +110,7 @@ export default {
               <router-link
                 class="dropdown-item"
                 :to="routes.loanSlip + '?status=pending'"
-                >Phiếu mượn
+                >Lịch sử mượn sách
               </router-link>
             </li>
             <li><hr class="dropdown-divider" /></li>
@@ -118,7 +118,7 @@ export default {
               <router-link
                 class="dropdown-item"
                 :to="routes.penaltyTicket + '?paymentStatus=NOT_PAID'"
-                >Phiếu phạt</router-link
+                >Phí phạt của tôi</router-link
               >
             </li>
             <li><hr class="dropdown-divider" /></li>

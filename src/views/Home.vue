@@ -57,7 +57,7 @@ export default {
   <div class="container" style="height:auto;">
     <div class="head-inner-title">
       <div class="head-title">
-        <h2 class="title">sách</h2>
+        <h2 class="title">Sách</h2>
       </div>
       <div class="progress" style="height: 4px">
         <div class="progress-bar" style="width: 30%"></div>

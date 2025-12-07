@@ -5,11 +5,11 @@ class LoanSlipService {
         this.api = createApiClient(baseUrl);
     }
 
-    async create({ books, borrowedDate, returnDate, status, readerId, staffId, _id }) {
+    async create({ books, status, readerId, staffId, _id }) {
         if (_id) {
             return (await this.api.put("/" + _id, { status, readerId, staffId })).data;
         }
-        return (await this.api.post("/", { books, borrowedDate, returnDate, status, readerId, staffId, _id })).data;
+        return (await this.api.post("/", { books, status, readerId, staffId, _id })).data;
     }
 
     async findAll({ page, limit, status }) {

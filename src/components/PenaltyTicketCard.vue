@@ -25,7 +25,7 @@ export default {
   <div class="card mb-2" v-if="penaltyTicket">
     <div class="card-header">
       <div class="d-flex justify-content-between">
-        <span>Mã: {{ penaltyTicket._id }}</span>
+        <span>Mã: {{ penaltyTicket.code }}</span>
         <span class="fw-bold text-uppercase text-danger">{{
           PaymentStatus[penaltyTicket.paymentStatus].desc
         }}</span>
@@ -51,7 +51,7 @@ export default {
                   })
                 "
               >
-                {{ penaltyTicket.loanSlipId }}
+                {{ penaltyTicket.loanSlipCode }}
               </div>
             </div>
           </div>

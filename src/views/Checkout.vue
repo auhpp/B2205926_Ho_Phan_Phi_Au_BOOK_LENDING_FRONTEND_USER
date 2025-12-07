@@ -5,6 +5,7 @@ import loanSlipService from "@/services/loanSlip.service";
 import { mapActions } from "pinia";
 import { useCartStore } from "@/stores/cartStore";
 import LoadingOverlay from "@/components/loadingOverlay.vue";
+import { formatDateTime } from "@/utils/formatDate";
 
 export default {
   components: {
@@ -15,8 +16,9 @@ export default {
       user: null,
       booksToCheckout: [],
       config: null,
-      returnBookDate: null,
+      borrowDuration: 0,
       isLoading: false,
+      formatDateTime: formatDateTime,
     };
   },
   methods: {
@@ -31,28 +33,29 @@ export default {
     async getConfiguration() {
       const data = await configurationService.findByName("DEFAULT_BORROW_DAYS");
       this.config = data.result;
-      const today = new Date();
-      const futureDate = new Date(today);
-      futureDate.setDate(today.getDate() + data.result.value);
-      this.returnBookDate = futureDate;
+      this.borrowDuration = data.result.value;
     },
 
     ...mapActions(useCartStore, ["fetchCartCount"]),
+
     async createLoanSlip() {
+      if (this.booksToCheckout.length === 0) {
+        alert("Danh sách sách trống!");
+        return;
+      }
       try {
         this.isLoading = true;
         const data = await loanSlipService.create({
           books: this.booksToCheckout.map((item) => {
             return { _id: item.bookDetails._id, quantity: item.quantity };
           }),
-          borrowedDate: new Date(),
-          returnDate: new Date(this.returnBookDate),
           readerId: this.user._id,
           status: "pending",
         });
         if (data.result) {
           await this.fetchCartCount();
-          alert("Tạo phiếu mượn thành công");
+          sessionStorage.removeItem("selectedBookForCheckout");
+          alert("Gửi yêu cầu thành công! Vui lòng chờ thủ thư duyệt.");
           this.$router.push({ name: "home" });
         }
       } catch (error) {
@@ -107,26 +110,36 @@ export default {
     </section>
     <!-- Thông tin ngày mượn ngày trả -->
     <section class="other-info">
-      <h3 class="title">Thông tin ngày mượn và ngày trả</h3>
+      <h3 class="title">Thông tin thời gian mượn</h3>
       <hr />
-      <div class="row g-3 align-items-center">
-        <div class="col-sm-4 col-lg-1">
-          <label for="inputNote" class="col-form-label fw-bold"
-            >Ngày mượn:</label
-          >
-        </div>
-        <div class="col-sm-8 col-lg-10">
-          {{ new Date().toLocaleDateString("vi-VN") }}
+      <div class="alert alert-primary d-flex align-items-center" role="alert">
+        <i class="fa-solid fa-circle-info me-2 fs-4"></i>
+        <div>
+          Lưu ý: Thời hạn trả sách sẽ bắt đầu được tính
+          <strong>từ ngày bạn đến nhận sách</strong> tại thư viện.
         </div>
       </div>
       <div class="row g-3 align-items-center">
-        <div class="col-sm-4 col-lg-1">
+        <div class="col-sm-4 col-lg-2">
           <label for="inputNote" class="col-form-label fw-bold"
-            >Ngày trả:</label
+            >Ngày tạo yêu cầu:</label
           >
         </div>
-        <div class="col-sm-8 col-lg-10">
-          {{ returnBookDate ? returnBookDate.toLocaleDateString("vi-VN") : "" }}
+        <div class="col-sm-8 col-lg-9">
+          {{ formatDateTime(new Date()) }}
+        </div>
+      </div>
+      <div class="row g-3 align-items-center">
+        <div class="col-sm-4 col-lg-2">
+          <label for="inputNote" class="col-form-label fw-bold"
+            >Thời hạn mượn:</label
+          >
+        </div>
+        <div class="col-sm-8 col-lg-9">
+          {{ borrowDuration }} ngày
+          <span class="text-muted fw-normal fst-italic ms-1"
+            >(Kể từ ngày nhận sách)</span
+          >
         </div>
       </div>
     </section>
